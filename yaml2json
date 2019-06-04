@@ -1,0 +1,33 @@
+#!/usr/bin/perl
+use strict;
+use YAML qw(LoadFile);
+use JSON;
+
+=head1 NAME
+
+yaml2json - very simple tool to convert YAML file to JSON
+
+=head1 USAGE
+
+  yaml2json <YAML-FILE>
+
+=head1 DESCRIPTION
+
+The yaml2json reads the YAML-FILE passed as argument and prints the YAML
+content converted in JSON to the standard output
+
+=head1 RUNTIME DEPENDENCIES
+
+you need the YAML and JSON Perl modules
+
+=cut
+
+my $yaml_file = $ARGV[0];
+warn "converting YAML file *$yaml_file* to JSON format...\n";
+unless (-e $yaml_file) {
+  die "file *$yaml_file* not exists!";
+}
+my @yaml = LoadFile $yaml_file;
+my $json = JSON->new;
+my $json_text = $json->pretty->encode(\@yaml);
+print $json_text;
